@@ -574,7 +574,7 @@ body.mobile-view {
     padding: 15px;
 }
 .mobile-view .qa-layout h2 {
-    font-size: 60px;
+    font-size: 54px; /* REDUCED */
 }
 
 /* Adjust Layouts */
@@ -596,7 +596,7 @@ body.mobile-view {
 
 /* Handle image-text stacking */
 .mobile-view .rounded-image-layout.two-column {
-    /* On mobile, stack them. If it's slide 5 (trophy), reverse the order */
+    /* On mobile, stack them. Default: text then image */
     grid-template-areas: "image" "text";
 }
 /* This makes the text appear *before* the image */
@@ -607,28 +607,25 @@ body.mobile-view {
 .mobile-view #slide5 .rounded-image-layout.two-column > div:first-child { grid-area: text; }
 .mobile-view #slide5 .rounded-image-layout.two-column > div:last-child { grid-area: image; }
 
-/* Specific fix for slides 2, 3, 4, 7, 10, 11 (Image first) */
+/* Specific fix for slides 2, 3, 4, 7 (Image first) */
+/* UPDATED: Removed 10 and 11 */
 .mobile-view #slide2 .rounded-image-layout.two-column,
 .mobile-view #slide3 .rounded-image-layout.two-column,
 .mobile-view #slide4 .rounded-image-layout.two-column,
-.mobile-view #slide7 .rounded-image-layout.two-column,
-.mobile-view #slide10 .rounded-image-layout.two-column,
-.mobile-view #slide11 .rounded-image-layout.two-column {
+.mobile-view #slide7 .rounded-image-layout.two-column {
     grid-template-areas: "image" "text"; /* Default order */
 }
+/* UPDATED: Removed 10 and 11 */
 .mobile-view #slide2 .rounded-image-layout.two-column > div:first-child,
 .mobile-view #slide3 .rounded-image-layout.two-column > div:first-child,
 .mobile-view #slide4 .rounded-image-layout.two-column > div:first-child,
-.mobile-view #slide7 .rounded-image-layout.two-column > div:first-child,
-.mobile-view #slide10 .rounded-image-layout.two-column > div:first-child,
-.mobile-view #slide11 .rounded-image-layout.two-column > div:first-child { grid-area: image; }
+.mobile-view #slide7 .rounded-image-layout.two-column > div:first-child { grid-area: image; }
 
+/* UPDATED: Removed 10 and 11 */
 .mobile-view #slide2 .rounded-image-layout.two-column > div:last-child,
 .mobile-view #slide3 .rounded-image-layout.two-column > div:last-child,
 .mobile-view #slide4 .rounded-image-layout.two-column > div:last-child,
-.mobile-view #slide7 .rounded-image-layout.two-column > div:last-child,
-.mobile-view #slide10 .rounded-image-layout.two-column > div:last-child,
-.mobile-view #slide11 .rounded-image-layout.two-column > div:last-child { grid-area: text; }
+.mobile-view #slide7 .rounded-image-layout.two-column > div:last-child { grid-area: text; }
 
 /* Resize images */
 .mobile-view .rounded-image-layout .image-wrapper {
@@ -646,6 +643,13 @@ body.mobile-view {
 .mobile-view .bullet-list li {
     font-size: 16px;
 }
+/* ADDED: Adjust icon alignment for mobile */
+.mobile-view .bullet-list i {
+    font-size: 20px;
+    width: 25px;
+    padding-top: 2px;
+}
+
 
 /* Stack tiles */
 .mobile-view .tiled-content {
@@ -1084,313 +1088,20 @@ cout <span class="operator">&lt;&lt;</span> c <span class="operator">/</span> b;
                         <li><code>!=</code> (Not equal to)</li>
                         <li><code>&gt;</code> (Greater than)</li>
                         <li><code>&lt;</code> (Less than)</li>
-                        <li><code>&gt;=</code> Cg<span class="comment">// Problem description on this side</span>
-<span class="comment">// Solution will be on the next slide</span></pre></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 31: Solution 3 --><div class="slide-container" id="slide31">
-        <h2 class="slide-title">Solution: Area of a Circle</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>The Solution</h3>
-                    <p>We read the radius as a <code>double</code>, calculate the area, and use <code>fixed</code> and <code>setprecision(9)</code> from <code>&lt;iomanip&gt;</code> to print with the required precision.</p>
-                </div>
-                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="preprocessor">#include &lt;iomanip&gt;</span> <span class="comment">// For setprecision</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> std;
-
-<span class="keyword">int</span> <span class="function">main</span>() {
-  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
-  <span class="function">cin.tie</span>(NULL);
-  
-  <span class="keyword">double</span> R;
-  <span class="keyword">const</span> <span class="keyword">double</span> PI = <span class="number">3.141592653</span>;
-  
-  cin <span class="operator">&gt;&gt;</span> R;
-  
-  <span class="keyword">double</span> area = PI <span class="operator">*</span> R <span class="operator">*</span> R;
-  
-  cout <span class="operator">&lt;&lt;</span> <span class="function">fixed</span> <span class="operator">&lt;&lt;</span> <span class="function">setprecision</span>(<span class="number">9</span>) <span class="operator">&lt;&lt;</span> area;
-  
-  <span class="keyword">return</span> <span class="number">0</span>;
-}</pre></div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 32: Problem 4 (NEW) --><div class="slide-container" id="slide32">
-        <h2 class="slide-title">Problem: Max of Two Numbers</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>The Problem</h3>
-                    <p>Read two integers, <code>X</code> and <code>Y</code>. Print the larger of the two.</p>
-                    <p><strong>Input:</strong><br><code>15 7</code></p>
-                    <p><strong>Output:</strong><br><code>15</code></p>
-                    <p><strong>Input:</strong><br><code>4 9</code></p>
-                    <p><strong>Output:</strong><br><code>9</code></p>
-                </div>
-                <div class="code-block"><pre><span class="comment">// Problem description on this side</span>
-<span class="comment">// Solution will be on the next slide</span></pre></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 33: Solution 4 (Max of Two Numbers - using if/else) --><div class="slide-container" id="slide33">
-        <h2 class="slide-title">Solution: Max of Two Numbers (`if-else`)</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>The Solution</h3>
-                    <p>We use an <code>if-else</code> statement to compare <code>X</code> and <code>Y</code>, printing the one that is greater.</p>
-                </div>
-                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> std;
-
-<span class="keyword">int</span> <span class="function">main</span>() {
-  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
-  <span class="function">cin.tie</span>(NULL);
-  
-  <span class="keyword">int</span> X, Y;
-  cin <span class="operator">&gt;&gt;</span> X <span class="operator">&gt;&gt;</span> Y;
-  
-  <span class="keyword">if</span> (X <span class="operator">&gt;</span> Y) {
-    cout <span class="operator">&lt;&lt;</span> X;
-  } <span class="keyword">else</span> {
-    cout <span class="operator">&lt;&lt;</span> Y;
-  }
-  
-  <span class="keyword">return</span> <span class="number">0</span>;
-}</pre></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 34: Solution 4 (Max of Two Numbers - using conditional operator) --><div class="slide-container" id="slide34">
-        <h2 class="slide-title">Solution: Max of Two Numbers (Conditional Op)</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>Alternative Solution</h3>
-                    <p>We can achieve the same result more compactly using the conditional (ternary) operator. This assigns the larger value directly.</p>
-                </div>
-                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> std;
-
-<span class="keyword">int</span> <span class="function">main</span>() {
-  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
-  <span class="function">cin.tie</span>(NULL);
-  
-  <span class="keyword">int</span> X, Y;
-  cin <span class="operator">&gt;&gt;</span> X <span class="operator">&gt;&gt;</span> Y;
-  
-  <span class="comment">// Assign the maximum value to 'max_val'</span>
-  <span class="keyword">int</span> max_val = (X <span class="operator">&gt;</span> Y) <span class="operator">?</span> X <span class="operator">:</span> Y;
-  cout <span class="operator">&lt;&lt;</span> max_val;
-  
-  <span class="comment">// Or print directly</span>
-  <span class="comment">// cout << ((X > Y) ? X : Y);</span>
-  
-  <span class="keyword">return</span> <span class="number">0</span>;
-}</pre></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 35: Problem 5 (NEW) --><div class="slide-container" id="slide35">
-        <h2 class="slide-title">Problem: Even or Odd</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>The Problem</h3>
-                    <p>Read an integer <code>N</code>. Print "Even" if <code>N</code> is even, and "Odd" if f_code" style="color: #00F5D4;"></i> Passionate about problem-solving and ICPC.</li>
-                        <li><i class="fa-solid fa-hands-helping" style="color: #00F5D4;"></i> My goal is to get you all comfortable with C++ and ready for your first contest!</li>
+                        <li><code>&gt;=</code> &lt;= (Greater/Less than or equal)</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- **** NEW SLIDE 3: ZIAD **** --><div class="slide-container" id="slide3">
-        <h2 class="slide-title">Meet Your Mentor</h2>
-        <div class="content-area">
-            <div class="two-column rounded-image-layout">
-                <div>
-                    <!-- Placeholder for Ziad's photo -->
-                    <div class="image-wrapper">
-                        <!-- UPDATED: Added Ziad's photo src and changed display styles -->
-                        <img src="IMG_20251018_1238301.jpg" alt="Photo of Ziad" style="display: block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <i class="fa-solid fa-user-astronaut" style="display: none; font-size: 120px; color: #00F5D4;"></i>
-                    </div>
-                </div>
-                <div>
-                    <h3>Ziad</h3>
-                    <p>Hello! I'm Ziad, and I'll be helping Ahmed mentor this level.</p>
-                    <ul>
-                        <li><i class="fa-solid fa-star" style="color: #00F5D4;"></i> Mentor at Thebes & CIS.</li>
-                        <li><i class="fa-solid fa-brain" style="color: #00F5D4;"></i> Passionate about Data Structures and Algorithms.</li>
-                        <li><i class="fa-solid fa-hands-helping" style="color: #00F5D4;"></i> Here to help you level up and solve complex problems!</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 4: Who Are We? (Old Slide 3) --><div class="slide-container" id="slide4">
-        <h2 class="slide-title">Who Are We?</h2>
-        <div class="content-area">
-            <div class="two-column rounded-image-layout">
-                <div>
-                    <div class="image-wrapper"><i class="fa-solid fa-users"></i></div>
-                </div>
-                <div>
-                    <h3>A Community of Solvers</h3>
-                    <!-- UPDATED -->
-                    <p>The <strong>Thebes ICPC Community</strong> is a student-led organization dedicated to fostering a passion for problem-solving and competitive programming (CP).</p>
-                    <p>We are here to train, mentor, and support you.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 5: What is the ICPC? (Old Slide 4) --><div class="slide-container" id="slide5">
-        <h2 class="slide-title">What is the ICPC?</h2>
-        <div class="content-area">
-            <div class="two-column rounded-image-layout">
-                <div>
-                    <h3>The Olympics of Programming</h3>
-                    <p>The <strong>International Collegiate Programming Contest</strong> is the oldest, largest, and most prestigious university-level programming competition in the world.</p>
-                </div>
-                <div>
-                    <div class="image-wrapper"><i class="fa-solid fa-trophy"></i></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 6: Why Join? (Old Slide 5) --><div class="slide-container" id="slide6">
-        <h2 class="slide-title">Why Should You Join?</h2>
-        <div class="content-area">
-            <div class="bullet-list">
-                <ul>
-                    <li><i class="fa-solid fa-brain"></i> <strong>Think Smarter:</strong> Drastically improve your problem-solving and logic skills.</li>
-                    <li><i class="fa-solid fa-gauge-high"></i> <strong>Code Faster:</strong> Learn to write bug-free, efficient C++ code under pressure.</li>
-                    <li><i class="fa-solid fa-briefcase"></i> <strong>Career Boost:</strong> Top tech companies actively recruit ICPC competitors.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
     
-    <!-- Slide 7: Mindset (Old Slide 6) --><div class="slide-container" id="slide7">
-        <h2 class="slide-title">The Mindset Shift</h2>
-        <div class="content-area">
-            <div class="two-column rounded-image-layout">
-                <div>
-                    <div class="image-wrapper"><i class="fa-solid fa-lightbulb"></i></div>
-                </div>
-                <div>
-                    <h3>Student vs. Problem Solver</h3>
-                    <p><strong>Student Mindset:</strong> "What do I need to learn to pass the test?"</p>
-                    <p><strong>Solver Mindset:</strong> "What is the most efficient and robust way to solve this problem?"</p>
-                    <p>We are here to build the Solver Mindset.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 8: Section_Title (NEW) --><div class="slide-container" id="slide8">
-        <div class="content-area">
-            <div class="section-title-layout">
-                <p>Session 1</p>
-                <h2>C++ Programming Basics</h2>
-                <hr>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 9: Topics (NEW) --><div class="slide-container" id="slide9">
-        <h2 class="slide-title">Today's Topics</h2>
-        <div class="content-area">
-            <div class="bullet-list">
-                <ul>
-                    <li><i class="fa-solid fa-question-circle"></i> What is Programming?</li>
-                    <li><i class="fa-solid fa-cogs"></i> What is C++ and Why do we use it?</li>
-                    <li><i class="fa-solid fa-terminal"></i> Your First Program (Boilerplate)</li>
-                    <li><i class="fa-solid fa-right-left"></i> Input & Output (I/O)</li>
-                    <li><i class="fa-solid fa-box"></i> Variables</li>
-                    <li><i class="fa-solid fa-tags"></i> Data Types (int, double, char, string, bool)</li>
-                    <li><i class="fa-solid fa-calculator"></i> Operators (Arithmetic, Comparison, Logical)</li>
-                    <li><i class="fa-solid fa-code-branch"></i> **Conditions (`if`/`else if`/`else`)**</li>
-                    <li><i class="fa-solid fa-question"></i> **Conditional Operator (`? :`)**</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 10: What is Programming? (NEW) --><div class="slide-container" id="slide10">
-        <h2 class="slide-title">What is Programming?</h2>
-        <div class="content-area">
-            <div class="two-column rounded-image-layout">
-                <div>
-                    <h3>Giving Instructions</h3>
-                    <p>Programming is simply the process of writing instructions for a computer to follow.</p>
-                    <p>We use a <strong>programming language</strong> (like C++) to write these instructions in a way the computer can understand.</p>
-                </div>
-                <div>
-                    <div class="image-wrapper"><i class="fa-solid fa-scroll"></i></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 11: Why C++? (Combined) --><div class="slide-container" id="slide11">
-        <h2 class="slide-title">Why C++ for ICPC?</h2>
-        <div class="content-area">
-            <div class="two-column rounded-image-layout">
-                <div>
-                    <h3>Speed and Power</h3>
-                    <p>C++ is incredibly fast, giving you an edge where every millisecond counts.</p>
-                    <p>The <strong>Standard Template Library (STL)</strong> provides all the essential data structures and algorithms you'll need, pre-built and optimized.</p>
-                </div>
-                <div>
-                    <div class="image-wrapper"><i class="fa-solid fa-rocket"></i></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 12: Boilerplate (NEW) --><div class="slide-container" id="slide12">
-        <h2 class="slide-title">Your First C++ Program</h2>
+    <!-- Slide 21: Operators - Logical (NEW) --><div class="slide-container" id="slide21">
+        <h2 class="slide-title">Operators: Logical</h2>
         <div class="content-area">
             <div class="two-column tiled">
                 <div>
-                    <h3>The "Boilerplate"</h3>
-                    <p>This is the basic template you'll start every program with. It includes the necessary libraries and sets up the main function where your code runs.</p>
-                </div>
-                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> std;
-
-<span class="keyword">int</span> <span class="function">main</span>() {
-  <span class="comment">// Your code goes here</span>
-  <!-- UPDATED -->
-  cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, Thebes ICPC!"</span>;
-
-  <span class="keyword">return</span> <span class="number">0</span>;
-}</pre></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 13: Boilerplate Explained (NEW) --><div class="slide-container" id="slide13">
-        <h2 class="slide-title">Boilerplate Explained</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <ul>
-                        <li><code>#include &lt;iostream&gt;</code>: Includes the library for <strong>I</strong>nput/<strong>O</strong>utput (like <code>cin</code> and <code>cout</code>).</li>
+                    <h3>Combining Conditions</h3>
+                    <p>Used to combine G-value (like <code>cin</code> and <code>cout</code>).</li>
                         <li><code>using namespace std;</code>: A shortcut so we can write <code>cout</code> instead of <code>std::cout</code>.</li>
                         <li><code>int main() { ... }</code>: The main "function" where your program's execution begins.</li>
                         <li><code>cout &lt;&lt; ...;</code>: Prints to the console.</li>
@@ -1946,7 +1657,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
-
-
-
+" code between  and  in the most up-to-date Canvas "Thebes ICPC Newcomers Kickoff" document above and am asking a query about/based on this code below.
+Instructions to follow:
+  * Don't output/edit the document if the query is Direct/Simple. For example, if the query asks for a simple explanation, output a direct answer.
+  * Make sure to **edit** the document if the query shows the intent of editing the document, in which case output the entire edited document, **not just that section or the edits**.
+    * Don't output the same document/empty document and say that you have edited it.
+    * Don't change unrelated code in the document.
+  * Don't output  and  in your final response.
+  * Any references like "this" or "selected code" refers to the code between  and  tags.
+  * Just acknowledge my request in the introduction.
