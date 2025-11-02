@@ -155,7 +155,7 @@ body {
   display: flex;
   flex-grow: 1;
   justify-content: center;
-  width: 100%;
+  /* REMOVED width: 100%; */
   animation: fadeIn 0.5s ease-out forwards;
 }
 
@@ -549,14 +549,14 @@ body.mobile-view {
 
 .mobile-view .slide-container {
     padding: 20px; /* REDUCED padding inside slides */
+    justify-content: flex-start; /* ADDED: Align content to top */
 }
 
 /* ADDED: Mobile content area scrolling */
 .mobile-view .slide-container .content-area {
   overflow-y: auto; /* Allow vertical scroll if content is too tall */
   overflow-x: hidden; /* Prevent horizontal scroll at this level */
-  /* align-items: flex-start;  Align to top */
-  /* justify-content: flex-start; */
+  width: 100%; /* ADDED: Ensure it takes full width inside padding */
 }
 
 
@@ -589,6 +589,11 @@ body.mobile-view {
 .mobile-view .qa-layout h2 {
     font-size: 48px; /* REDUCED */
 }
+/* ADDED: Fix for large section titles */
+.mobile-view .section-title-layout h2 {
+    font-size: 40px;
+}
+
 
 /* Adjust Layouts */
 
@@ -597,6 +602,7 @@ body.mobile-view {
     grid-template-columns: 1fr; /* Stack columns */
     gap: 20px;
     align-items: center; /* Center stacked items */
+    width: 100%; /* ADDED: Ensure it takes full width */
 }
 
 .mobile-view .two-column.tiled {
@@ -688,14 +694,13 @@ body.mobile-view {
 </head>
 <body>
 
-<!-- **** NEW: View Toggle Buttons **** -->
 <div id="view-toggle-controls">
     <span>View Mode:</span>
     <button id="desktop-view-btn"><i class="fa-solid fa-desktop"></i> Desktop</button>
     <button id="mobile-view-btn"><i class="fa-solid fa-mobile-screen"></i> Mobile</button>
 </div>
 
-<!-- New Presentation Viewer --><div id="presentation-viewer">
+<div id="presentation-viewer">
 
     <div class="slide-container" id="slide1">
       <div class="content-area">
@@ -1079,7 +1084,7 @@ cout <span class="operator">&lt;&lt;</span> c <span class="operator">/</span> b;
                         <li><code>=</code> (Assign value)</li>
                         <li><code>+=</code> (Add to self)</li>
                         <li><code>-=</code> (Subtract from self)</li>
-                        <li><code>*=</code> <code>/=</code> <code>%=</code> (etc.)</li>
+                        <li><code>*=</code> E> <code>/=</code> E> <code>%=</code> (etc.)</li>
                     </ul>
                 </div>
                 <div>
@@ -1451,4 +1456,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
