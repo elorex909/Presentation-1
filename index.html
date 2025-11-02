@@ -658,15 +658,32 @@ body.mobile-view {
 /* Stack bullet list */
 .mobile-view .bullet-list {
     max-width: 100%;
+    width: 100%; /* ADDED: Ensure it takes full width */
 }
 .mobile-view .bullet-list li {
     font-size: 16px;
+    flex-direction: column; /* ADDED: Stack icon and text vertically */
+    gap: 10px; /* ADDED: Space between icon and text */
 }
+/* ADDED: Specific fix for slide 17 layout */
+.mobile-view #slide17 .bullet-list li,
+.mobile-view #slide9 .bullet-list li {
+    flex-direction: row; /* Revert to row for these slides */
+    gap: 20px;
+}
+
 .mobile-view .bullet-list i {
     font-size: 20px;
     width: 25px;
     padding-top: 2px;
+    text-align: left; /* ADDED: Align icon left */
 }
+/* ADDED: Specific fix for slide 17 layout */
+.mobile-view #slide17 .bullet-list i,
+.mobile-view #slide9 .bullet-list i {
+    text-align: center; /* Revert to center */
+}
+
 
 
 /* Stack tiles */
@@ -832,15 +849,15 @@ body.mobile-view {
         <div class="content-area">
             <div class="bullet-list">
                 <ul>
-                    <li><i class="fa-solid fa-question-circle"></i> What is Programming?</li>
-                    <li><i class="fa-solid fa-cogs"></i> What is C++ and Why do we use it?</li>
-                    <li><i class="fa-solid fa-terminal"></i> Your First Program (Boilerplate)</li>
-                    <li><i class="fa-solid fa-right-left"></i> Input & Output (I/O)</li>
-                    <li><i class="fa-solid fa-box"></i> Variables</li>
-                    <li><i class="fa-solid fa-tags"></i> Data Types (int, double, char, string, bool)</li>
-                    <li><i class="fa-solid fa-calculator"></i> Operators (Arithmetic, Comparison, Logical)</li>
-                    <li><i class="fa-solid fa-code-branch"></i> **Conditions (`if`/`else if`/`else`)**</li>
-                    <li><i class="fa-solid fa-question"></i> **Conditional Operator (`? :`)**</li>
+                    <li><i class="fa-solid fa-question-circle"></i> <strong>What is Programming?</strong></li>
+                    <li><i class="fa-solid fa-cogs"></i> <strong>What is C++ and Why do we use it?</strong></li>
+                    <li><i class="fa-solid fa-terminal"></i> <strong>Your First Program (Boilerplate)</strong></li>
+                    <li><i class="fa-solid fa-right-left"></i> <strong>Input & Output (I/O)</strong></li>
+                    <li><i class="fa-solid fa-box"></i> <strong>Variables</strong></li>
+                    <li><i class="fa-solid fa-tags"></i> <strong>Data Types (int, double, char, string, bool)</strong></li>
+                    <li><i class="fa-solid fa-calculator"></i> <strong>Operators (Arithmetic, Comparison, Logical)</strong></li>
+                    <li><i class="fa-solid fa-code-branch"></i> <strong>Conditions (`if`/`else if`/`else`)</strong></li>
+                    <li><i class="fa-solid fa-question"></i> <strong>Conditional Operator (`? :`)</strong></li>
                 </ul>
             </div>
         </div>
