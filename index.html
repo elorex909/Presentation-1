@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- UPDATED TITLE -->
     <title>Thebes ICPC Newcomers - Level 0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,6 +98,7 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   text-shadow: 0 0 8px rgba(232, 0, 195, 0.5); /* Pink glow */
+  overflow-wrap: break-word; /* ADDED: Prevent overflow */
 }
 
 /* Body Text Font */
@@ -107,6 +107,7 @@ body {
 .slide-container .subtitle {
   color: #D0D0D0; /* Light gray */
   font-family: 'Lato', sans-serif;
+  overflow-wrap: break-word; /* ADDED: Prevent overflow */
 }
 
 /* Consistent Font Sizes */
@@ -121,7 +122,7 @@ body {
   font-weight: 700;
   margin-bottom: 40px;
   text-align: left;
-  width: 100%;
+  /* REMOVED width: 100%; */
   color: #00F5D4; /* Neon Cyan */
   text-shadow: 0 0 8px rgba(0, 245, 212, 0.5); /* Cyan glow */
 }
@@ -230,7 +231,7 @@ body {
   /* MODIFIED: Give code block more space */
   grid-template-columns: 0.9fr 1.1fr;
   gap: 50px;
-  width: 100%;
+  /* REMOVED width: 100%; */
 }
 .two-column.tiled {
   align-items: stretch;
@@ -245,6 +246,7 @@ body {
   box-shadow: 0 0 15px rgba(232, 0, 195, 0.1);
   /* ADDED: Prevent overflow */
   max-height: 550px; /* Max height for content */
+  overflow: hidden; /* ADDED: Prevent content from breaking out of tile */
 }
 .two-column.tiled > div ul {
   padding-left: 20px;
@@ -260,7 +262,8 @@ body {
   font-family: 'Courier New', Courier, monospace;
   font-size: 16px;
   color: #E0E0E0;
-  overflow-y: auto; 
+  overflow-y: auto;
+  overflow-x: auto; /* ADDED: Allow horizontal scroll for long code lines */
   flex-grow: 1;
   box-shadow: 0 0 15px rgba(0, 245, 212, 0.2);
   height: auto; 
@@ -272,6 +275,7 @@ body {
     padding: 20px;
     white-space: pre-wrap;
     word-wrap: break-word; /* Ensure long lines wrap */
+    min-width: 100%; /* Ensure it tries to fill the container */
 }
 
 .code-block .comment { color: #6A6A8A; }
@@ -544,8 +548,17 @@ body.mobile-view {
 }
 
 .mobile-view .slide-container {
-    padding: 30px; /* Smaller padding inside slides */
+    padding: 20px; /* REDUCED padding inside slides */
 }
+
+/* ADDED: Mobile content area scrolling */
+.mobile-view .slide-container .content-area {
+  overflow-y: auto; /* Allow vertical scroll if content is too tall */
+  overflow-x: hidden; /* Prevent horizontal scroll at this level */
+  /* align-items: flex-start;  Align to top */
+  /* justify-content: flex-start; */
+}
+
 
 /* Adjust Typography */
 .mobile-view .slide-container h1 {
@@ -568,13 +581,13 @@ body.mobile-view {
 }
 .mobile-view .code-block {
     font-size: 13px;
-    max-height: 250px; /* Set a max height for code on mobile */
+    max-height: 300px; /* INCREASED max height for code on mobile */
 }
 .mobile-view .code-block pre {
     padding: 15px;
 }
 .mobile-view .qa-layout h2 {
-    font-size: 54px; /* REDUCED */
+    font-size: 48px; /* REDUCED */
 }
 
 /* Adjust Layouts */
@@ -594,38 +607,38 @@ body.mobile-view {
     padding: 20px;
 }
 
-/* Handle image-text stacking */
+/* --- RE-WORKED STACKING LOGIC --- */
+
+/* Default Stacking: Image/Icon first, then Text */
 .mobile-view .rounded-image-layout.two-column {
-    /* On mobile, stack them. Default: text then image */
     grid-template-areas: "image" "text";
 }
-/* This makes the text appear *before* the image */
-.mobile-view .rounded-image-layout.two-column > div:first-child { grid-area: text; }
-.mobile-view .rounded-image-layout.two-column > div:last-child { grid-area: image; }
-
-/* Specific fix for slide 5 (Trophy) to keep image last */
-.mobile-view #slide5 .rounded-image-layout.two-column > div:first-child { grid-area: text; }
-.mobile-view #slide5 .rounded-image-layout.two-column > div:last-child { grid-area: image; }
-
-/* Specific fix for slides 2, 3, 4, 7 (Image first) */
-/* UPDATED: Removed 10 and 11 */
-.mobile-view #slide2 .rounded-image-layout.two-column,
-.mobile-view #slide3 .rounded-image-layout.two-column,
-.mobile-view #slide4 .rounded-image-layout.two-column,
-.mobile-view #slide7 .rounded-image-layout.two-column {
-    grid-template-areas: "image" "text"; /* Default order */
+.mobile-view .rounded-image-layout.two-column > div:first-child { 
+    grid-area: image; /* 1st div (image wrapper) goes in 'image' area */
 }
-/* UPDATED: Removed 10 and 11 */
-.mobile-view #slide2 .rounded-image-layout.two-column > div:first-child,
-.mobile-view #slide3 .rounded-image-layout.two-column > div:first-child,
-.mobile-view #slide4 .rounded-image-layout.two-column > div:first-child,
-.mobile-view #slide7 .rounded-image-layout.two-column > div:first-child { grid-area: image; }
+.mobile-view .rounded-image-layout.two-column > div:last-child { 
+    grid-area: text; /* 2nd div (text) goes in 'text' area */
+}
 
-/* UPDATED: Removed 10 and 11 */
-.mobile-view #slide2 .rounded-image-layout.two-column > div:last-child,
-.mobile-view #slide3 .rounded-image-layout.two-column > div:last-child,
-.mobile-view #slide4 .rounded-image-layout.two-column > div:last-child,
-.mobile-view #slide7 .rounded-image-layout.two-column > div:last-child { grid-area: text; }
+/* Exception Stacking: Text first, then Image/Icon */
+/* (Slides 5, 10, 11 have text in the first div) */
+.mobile-view #slide5 .rounded-image-layout.two-column,
+.mobile-view #slide10 .rounded-image-layout.two-column,
+.mobile-view #slide11 .rounded-image-layout.two-column {
+    grid-template-areas: "text" "image";
+}
+.mobile-view #slide5 .rounded-image-layout.two-column > div:first-child,
+.mobile-view #slide10 .rounded-image-layout.two-column > div:first-child,
+.mobile-view #slide11 .rounded-image-layout.two-column > div:first-child { 
+    grid-area: text; /* 1st div (text) goes in 'text' area */
+}
+.mobile-view #slide5 .rounded-image-layout.two-column > div:last-child,
+.mobile-view #slide10 .rounded-image-layout.two-column > div:last-child,
+.mobile-view #slide11 .rounded-image-layout.two-column > div:last-child { 
+    grid-area: image; /* 2nd div (image wrapper) goes in 'image' area */
+}
+/* --- END RE-WORKED LOGIC --- */
+
 
 /* Resize images */
 .mobile-view .rounded-image-layout .image-wrapper {
@@ -643,7 +656,6 @@ body.mobile-view {
 .mobile-view .bullet-list li {
     font-size: 16px;
 }
-/* ADDED: Adjust icon alignment for mobile */
 .mobile-view .bullet-list i {
     font-size: 20px;
     width: 25px;
@@ -685,25 +697,22 @@ body.mobile-view {
 
 <!-- New Presentation Viewer --><div id="presentation-viewer">
 
-    <!-- Slide 1: Title_Slide --><div class="slide-container" id="slide1">
+    <div class="slide-container" id="slide1">
       <div class="content-area">
         <div class="title-layout">
-            <!-- UPDATED -->
             <h1>Level 0: C++ Basics<br>Thebes ICPC Newcomers</h1>
             <p class="subtitle">Your journey into competitive programming starts NOW.</p>
         </div>
       </div>
     </div>
     
-    <!-- Slide 2: NEW Instructor Slide --><div class="slide-container" id="slide2">
+    <div class="slide-container" id="slide2">
         <h2 class="slide-title">About Your Instructor</h2>
         <div class="content-area">
             <div class="two-column rounded-image-layout">
                 <div>
-                    <!-- Use the uploaded image -->
-                    <!-- FIXED IMAGE SRC -->
                     <div class="image-wrapper">
-                        <img src="5778535814672354258_121.jpg" alt="Photo of the instructor">
+                        <img src="IMG_20251018_123830.jpg" alt="Photo of the instructor">
                     </div>
                 </div>
                 <div>
@@ -719,14 +728,12 @@ body.mobile-view {
         </div>
     </div>
 
-    <!-- **** NEW SLIDE 3: ZIAD **** --><div class="slide-container" id="slide3">
+    <div class="slide-container" id="slide3">
         <h2 class="slide-title">Meet Your Mentor</h2>
         <div class="content-area">
             <div class="two-column rounded-image-layout">
                 <div>
-                    <!-- Placeholder for Ziad's photo -->
                     <div class="image-wrapper">
-                        <!-- UPDATED: Added Ziad's photo src and changed display styles -->
                         <img src="IMG_20251018_1238301.jpg" alt="Photo of Ziad" style="display: block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <i class="fa-solid fa-user-astronaut" style="display: none; font-size: 120px; color: #00F5D4;"></i>
                     </div>
@@ -744,7 +751,7 @@ body.mobile-view {
         </div>
     </div>
 
-    <!-- Slide 4: Who Are We? (Old Slide 3) --><div class="slide-container" id="slide4">
+    <div class="slide-container" id="slide4">
         <h2 class="slide-title">Who Are We?</h2>
         <div class="content-area">
             <div class="two-column rounded-image-layout">
@@ -753,7 +760,6 @@ body.mobile-view {
                 </div>
                 <div>
                     <h3>A Community of Solvers</h3>
-                    <!-- UPDATED -->
                     <p>The <strong>Thebes ICPC Community</strong> is a student-led organization dedicated to fostering a passion for problem-solving and competitive programming (CP).</p>
                     <p>We are here to train, mentor, and support you.</p>
                 </div>
@@ -761,7 +767,7 @@ body.mobile-view {
         </div>
     </div>
 
-    <!-- Slide 5: What is the ICPC? (Old Slide 4) --><div class="slide-container" id="slide5">
+    <div class="slide-container" id="slide5">
         <h2 class="slide-title">What is the ICPC?</h2>
         <div class="content-area">
             <div class="two-column rounded-image-layout">
@@ -776,7 +782,7 @@ body.mobile-view {
         </div>
     </div>
 
-    <!-- Slide 6: Why Join? (Old Slide 5) --><div class="slide-container" id="slide6">
+    <div class="slide-container" id="slide6">
         <h2 class="slide-title">Why Should You Join?</h2>
         <div class="content-area">
             <div class="bullet-list">
@@ -789,7 +795,7 @@ body.mobile-view {
         </div>
     </div>
     
-    <!-- Slide 7: Mindset (Old Slide 6) --><div class="slide-container" id="slide7">
+    <div class="slide-container" id="slide7">
         <h2 class="slide-title">The Mindset Shift</h2>
         <div class="content-area">
             <div class="two-column rounded-image-layout">
@@ -806,7 +812,7 @@ body.mobile-view {
         </div>
     </div>
 
-    <!-- Slide 8: Section_Title (NEW) --><div class="slide-container" id="slide8">
+    <div class="slide-container" id="slide8">
         <div class="content-area">
             <div class="section-title-layout">
                 <p>Session 1</p>
@@ -816,7 +822,7 @@ body.mobile-view {
         </div>
     </div>
     
-    <!-- Slide 9: Topics (NEW) --><div class="slide-container" id="slide9">
+    <div class="slide-container" id="slide9">
         <h2 class="slide-title">Today's Topics</h2>
         <div class="content-area">
             <div class="bullet-list">
@@ -835,7 +841,7 @@ body.mobile-view {
         </div>
     </div>
 
-    <!-- Slide 10: What is Programming? (NEW) --><div class="slide-container" id="slide10">
+    <div class="slide-container" id="slide10">
         <h2 class="slide-title">What is Programming?</h2>
         <div class="content-area">
             <div class="two-column rounded-image-layout">
@@ -851,7 +857,7 @@ body.mobile-view {
         </div>
     </div>
     
-    <!-- Slide 11: Why C++? (Combined) --><div class="slide-container" id="slide11">
+    <div class="slide-container" id="slide11">
         <h2 class="slide-title">Why C++ for ICPC?</h2>
         <div class="content-area">
             <div class="two-column rounded-image-layout">
@@ -867,7 +873,7 @@ body.mobile-view {
         </div>
     </div>
     
-    <!-- Slide 12: Boilerplate (NEW) --><div class="slide-container" id="slide12">
+    <div class="slide-container" id="slide12">
         <h2 class="slide-title">Your First C++ Program</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -879,8 +885,7 @@ body.mobile-view {
 <span class="keyword">using</span> <span class="keyword">namespace</span> std;
 
 <span class="keyword">int</span> <span class="function">main</span>() {
-  <span class="comment">// Your code goes here</span>
-  <!-- UPDATED -->
+  
   cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, Thebes ICPC!"</span>;
 
   <span class="keyword">return</span> <span class="number">0</span>;
@@ -889,7 +894,7 @@ body.mobile-view {
         </div>
     </div>
 
-    <!-- Slide 13: Boilerplate Explained (NEW) --><div class="slide-container" id="slide13">
+    <div class="slide-container" id="slide13">
         <h2 class="slide-title">Boilerplate Explained</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -906,9 +911,8 @@ body.mobile-view {
 <span class="keyword">using</span> <span class="keyword">namespace</span> std;
 
 <span class="keyword">int</span> <span class="function">main</span>() {
-  <span class="comment">// Your code goes here</span>
-  <!-- UPDATED -->
-  cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, Thebes ICPC!"</span>;
+  
+  cout <span class="operator">&lt;&Look</span> <span class="string">"Hello, Thebes ICPC!"</span>;
 
   <span class="keyword">return</span> <span class="number">0</span>;
 }</pre></div>
@@ -916,7 +920,7 @@ body.mobile-view {
         </div>
     </div>
     
-    <!-- Slide 14: Basic I/O (NEW) --><div class="slide-container" id="slide14">
+    <div class="slide-container" id="slide14">
         <h2 class="slide-title">Input & Output (I/O)</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -940,7 +944,7 @@ cout <span class="operator">&lt;&lt;</span> <span class="string">"You are "</spa
         </div>
     </div>
     
-    <!-- Slide 15: Fast I/O (Kept from old) --><div class="slide-container" id="slide15">
+    <div class="slide-container" id="slide15">
         <h2 class="slide-title">Fast I/O (Very Important!)</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -950,11 +954,11 @@ cout <span class="operator">&lt;&lt;</span> <span class="string">"You are "</spa
                     <p><strong>Always</strong> add these two lines to the start of your <code>main</code> function to make I/O fast.</p>
                 </div>
                 <div class="code-block"><pre><span class="keyword">int</span> <span class="function">main</span>() {
-  <span class="comment">// Add these two lines!</span>
+  
   <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
   <span class="function">cin.tie</span>(NULL);
   
-  <span class="comment">// Now your cin/cout are fast</span>
+  
   <span class="keyword">int</span> n;
   cin <span class="operator">&gt;&gt;</span> n;
   cout <span class="operator">&lt;&lt;</span> n;
@@ -965,7 +969,7 @@ cout <span class="operator">&lt;&lt;</span> <span class="string">"You are "</spa
         </div>
     </div>
     
-    <!-- Slide 16: Variables (NEW) --><div class="slide-container" id="slide16">
+    <div class="slide-container" id="slide16">
         <h2 class="slide-title">What are Variables?</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -979,9 +983,7 @@ cout <span class="operator">&lt;&lt;</span> <span class="string">"You are "</spa
                         <br><code>int score = 100;</code></li>
                     </ul>
                 </div>
-                <div class="code-block"><pre><span class="comment">// Type: int (integer)</span>
-<span class="comment">// Name: score</span>
-<span class="comment">// Value: 100</span>
+                <div class="code-block"><pre>
 <span class="keyword">int</span> score = <span class="number">100</span>;
 
 <span class="comment">// You can change the value</span>
@@ -993,7 +995,7 @@ cout <span class="operator">&lt;&lt;</span> score; <span class="comment">// Prin
         </div>
     </div>
     
-    <!-- Slide 17: Data Types (NEW) --><div class="slide-container" id="slide17">
+    <div class="slide-container" id="slide17">
         <h2 class="slide-title">Core Data Types</h2>
         <div class="content-area">
             <div class="bullet-list">
@@ -1013,7 +1015,7 @@ cout <span class="operator">&lt;&lt;</span> score; <span class="comment">// Prin
         </div>
     </div>
     
-    <!-- Slide 18: string (NEW) --><div class="slide-container" id="slide18">
+    <div class="slide-container" id="slide18">
         <h2 class="slide-title">Data Type: <code>string</code></h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1024,19 +1026,19 @@ cout <span class="operator">&lt;&lt;</span> score; <span class="comment">// Prin
                 <div class="code-block"><pre><span class="preprocessor">#include &lt;string&gt;</span>
 <span class="keyword">using</span> <span class="keyword">namespace</span> std;
 
-<span class="comment">// Declaration and Initialization</span>
+
 string name = <span class="string">"Ahmed"</span>;
 
-<span class="comment">// Reading a string (reads up to a space)</span>
+
 cin <span class="operator">&gt;&gt;</span> name;
 
-<span class="comment">// Printing a string</span>
+
 cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, "</span> <span class="operator">&lt;&lt;</span> name;</pre></div>
             </div>
         </div>
     </div>
 
-    <!-- Slide 19: Operators - Arithmetic (NEW) --><div class="slide-container" id="slide19">
+    <div class="slide-container" id="slide19">
         <h2 class="slide-title">Operators: Arithmetic</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1066,7 +1068,7 @@ cout <span class="operator">&lt;&lt;</span> c <span class="operator">/</span> b;
         </div>
     </div>
     
-    <!-- Slide 20: Operators - Assignment/Comparison (NEW) --><div class="slide-container" id="slide20">
+    <div class="slide-container" id="slide20">
         <h2 class="slide-title">Operators: Assignment & Comparison</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1095,213 +1097,7 @@ cout <span class="operator">&lt;&lt;</span> c <span class="operator">/</span> b;
         </div>
     </div>
     
-    <!-- Slide 21: Operators - Logical (NEW) --><div class="slide-container" id="slide21">
-        <h2 class="slide-title">Operators: Logical</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>Combining Conditions</h3>
-                    <p>Used to combine G-value (like <code>cin</code> and <code>cout</code>).</li>
-                        <li><code>using namespace std;</code>: A shortcut so we can write <code>cout</code> instead of <code>std::cout</code>.</li>
-                        <li><code>int main() { ... }</code>: The main "function" where your program's execution begins.</li>
-                        <li><code>cout &lt;&lt; ...;</code>: Prints to the console.</li>
-                        <li><code>return 0;</code>: Tells the OS the program finished successfully.</li>
-                    </ul>
-                </div>
-                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> std;
-
-<span class="keyword">int</span> <span class="function">main</span>() {
-  <span class="comment">// Your code goes here</span>
-  <!-- UPDATED -->
-  cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, Thebes ICPC!"</span>;
-
-  <span class="keyword">return</span> <span class="number">0</span>;
-}</pre></div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 14: Basic I/O (NEW) --><div class="slide-container" id="slide14">
-        <h2 class="slide-title">Input & Output (I/O)</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3><code>cin</code> and <code>cout</code></h3>
-                    <p><code>cout</code> (see-out) prints data to the console.</p>
-                    <p><code>cin</code> (see-in) reads data from the console into a variable.</p>
-                    <p>Use <code>&lt;&lt;</code> with <code>cout</code> and <code>&gt;&gt;</code> with <code>cin</code>.</p>
-                </div>
-                <div class="code-block"><pre><span class="keyword">int</span> age;
-
-<span class="comment">// 1. Print a prompt</span>
-cout <span class="operator">&lt;&lt;</span> <span class="string">"Enter your age: "</span>;
-
-<span class="comment">// 2. Read input into the 'age' variable</span>
-cin <span class="operator">&gt;&gt;</span> age;
-
-<span class="comment">// 3. Print the variable</span>
-cout <span class="operator">&lt;&lt;</span> <span class="string">"You are "</span> <span class="operator">&lt;&lt;</span> age <span class="operator">&lt;&lt;</span> <span class="string">" years old."</span>;</pre></div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 15: Fast I/O (Kept from old) --><div class="slide-container" id="slide15">
-        <h2 class="slide-title">Fast I/O (Very Important!)</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>Why? <code>cin</code>/<code>cout</code> are slow!</h3>
-                    <p>By default, C++ I/O is slow. For large inputs in contests, this can cause a "Time Limit Exceeded" (TLE) error.</p>
-                    <p><strong>Always</strong> add these two lines to the start of your <code>main</code> function to make I/O fast.</p>
-                </div>
-                <div class="code-block"><pre><span class="keyword">int</span> <span class="function">main</span>() {
-  <span class="comment">// Add these two lines!</span>
-  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
-  <span class="function">cin.tie</span>(NULL);
-  
-  <span class="comment">// Now your cin/cout are fast</span>
-  <span class="keyword">int</span> n;
-  cin <span class="operator">&gt;&gt;</span> n;
-  cout <span class="operator">&lt;&lt;</span> n;
-  
-  <span class="keyword">return</span> <span class="number">0</span>;
-}</pre></div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 16: Variables (NEW) --><div class="slide-container" id="slide16">
-        <h2 class="slide-title">What are Variables?</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>Memory Boxes</h3>
-                    <p>A variable is a container in memory to store a piece of data. It has a **type**, a **name**, and a **value**.</p>
-                    <ul>
-                        <li><strong>Declaration:</strong> Give it a type and a name.
-                        <br><code>int score;</code></li>
-                        <li><strong>Initialization:</strong> Give it an initial value.
-                        <br><code>int score = 100;</code></li>
-                    </ul>
-                </div>
-                <div class="code-block"><pre><span class="comment">// Type: int (integer)</span>
-<span class="comment">// Name: score</span>
-<span class="comment">// Value: 100</span>
-<span class="keyword">int</span> score = <span class="number">100</span>;
-
-<span class="comment">// You can change the value</span>
-score = <span class="number">150</span>;
-
-<span class="comment">// You can use it</span>
-cout <span class="operator">&lt;&lt;</span> score; <span class="comment">// Prints 150</span></pre></div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 17: Data Types (NEW) --><div class="slide-container" id="slide17">
-        <h2 class="slide-title">Core Data Types</h2>
-        <div class="content-area">
-            <div class="bullet-list">
-                <ul>
-                    <li><i class="fa-solid fa-hashtag"></i> <strong>int:</strong> For whole numbers (integers).
-                    <br><code>int age = 20;</code></li>
-                    <li><i class="fa-solid fa-water"></i> <strong>float / double:</strong> For decimal (floating-point) numbers.
-                    <br><code>float price = 10.99;</code>
-                    <br><code>double pi = 3.14159;</code>
-                    <br><small>In contests, <strong>always use <code>double</code></strong>! It has much better precision.</small></li>
-                    <li><i class="fa-solid fa-font"></i> <strong>char:</strong> For a *single* character. Uses single quotes.
-                    <br><code>char grade = 'A';</code></li>
-                    <li><i class="fa-solid fa-toggle-on"></i> <strong>bool:</strong> For logical values, either <code>true</code> or <code>false</code>.
-                    <br><code>bool is_ready = true;</code></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 18: string (NEW) --><div class="slide-container" id="slide18">
-        <h2 class="slide-title">Data Type: <code>string</code></h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>Text Data</h3>
-                    <p>A <code>string</code> is a special type for storing text (a sequence of characters). It requires <code>#include &lt;string&gt;</code> (or <code>bits/stdc++.h</code>) and uses double quotes.</p>
-                </div>
-                <div class="code-block"><pre><span class="preprocessor">#include &lt;string&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> std;
-
-<span class="comment">// Declaration and Initialization</span>
-string name = <span class="string">"Ahmed"</span>;
-
-<span class="comment">// Reading a string (reads up to a space)</span>
-cin <span class="operator">&gt;&gt;</span> name;
-
-<span class="comment">// Printing a string</span>
-cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, "</span> <span class="operator">&lt;&lt;</span> name;</pre></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 19: Operators - Arithmetic (NEW) --><div class="slide-container" id="slide19">
-        <h2 class="slide-title">Operators: Arithmetic</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>Basic Math</h3>
-                    <p>Used to perform mathematical calculations.</p>
-                    <ul>
-                        <li><code>+</code> (Add)</li>
-                        <li><code>-</code> (Subtract)</li>
-                        <li><code>*</code> (Multiply)</li>
-                        <li><code>/</code> (Divide)</li>
-                        <li><code>%</code> (Modulo/Remainder)</li>
-                    </ul>
-                </div>
-                <div class="code-block"><pre><span class="keyword">int</span> a = <span class="number">10</span>;
-<span class="keyword">int</span> b = <span class="number">3</span>;
-
-cout <span class="operator">&lt;&lt;</span> a <span class="operator">+</span> b; <span class="comment">// 13</span>
-cout <span class="operator">&lt;&lt;</span> a <span class="operator">-</span> b; <span class="comment">// 7</span>
-cout <span class="operator">&lt;&lt;</span> a <span class="operator">*</span> b; <span class="comment">// 30</span>
-cout <span class="operator">&lt;&lt;</span> a <span class="operator">/</span> b; <span class="comment">// 3 (int division!)</span>
-cout <span class="operator">&lt;&lt;</span> a <span class="operator">%</span> b; <span class="comment">// 1 (the remainder)</span>
-
-<span class="keyword">double</span> c = <span class="number">10.0</span>;
-cout <span class="operator">&lt;&lt;</span> c <span class="operator">/</span> b; <span class="comment">// 3.333...</span></pre></div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 20: Operators - Assignment/Comparison (NEW) --><div class="slide-container" id="slide20">
-        <h2 class="slide-title">Operators: Assignment & Comparison</h2>
-        <div class="content-area">
-            <div class="two-column tiled">
-                <div>
-                    <h3>Assignment</h3>
-                    <p>Used to assign values.</p>
-                    <ul>
-                        <li><code>=</code> (Assign value)</li>
-                        <li><code>+=</code> (Add to self)</li>
-                        <li><code>-=</code> (Subtract from self)</li>
-                        <li><code>*=</code> <code>/=</code> <code>%=</code> (etc.)</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Comparison</h3>
-                    <p>Used to compare values. Result is a <code>bool</code> (true/false).</p>
-                    <ul>
-                        <li><code>==</code> (Equal to)</li>
-                        <li><code>!=</code> (Not equal to)</li>
-                        <li><code>&gt;</code> (Greater than)</li>
-                        <li><code>&lt;</code> (Less than)</li>
-                        <li><code>&gt;=</code> &lt;= (Greater/Less than or equal)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 21: Operators - Logical (NEW) --><div class="slide-container" id="slide21">
+    <div class="slide-container" id="slide21">
         <h2 class="slide-title">Operators: Logical</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1317,19 +1113,19 @@ cout <span class="operator">&lt;&lt;</span> c <span class="operator">/</span> b;
                 <div class="code-block"><pre><span class="keyword">int</span> age = <span class="number">20</span>;
 <span class="keyword">bool</span> has_ticket = <span class="keyword">true</span>;
 
-<span class="comment">// (true AND true) -> true</span>
+
 <span class="keyword">bool</span> can_enter = (age <span class="operator">&gt;</span> <span class="number">18</span>) <span class="operator">&amp;&amp;</span> (has_ticket);
 
-<span class="comment">// (true OR false) -> true</span>
+
 <span class="keyword">bool</span> is_vip = (age <span class="operator">&gt;</span> <span class="number">65</span>) <span class="operator">||</span> (has_ticket);
 
-<span class="comment">// !(true) -> false</span>
+
 <span class="keyword">bool</span> no_ticket = <span class="operator">!</span>has_ticket;</pre></div>
             </div>
         </div>
     </div>
 
-    <!-- Slide 22: Section_Title (NEW) --><div class="slide-container" id="slide22">
+    <div class="slide-container" id="slide22">
         <div class="content-area">
             <div class="section-title-layout">
                 <p>Decision Making</p>
@@ -1339,7 +1135,7 @@ cout <span class="operator">&lt;&lt;</span> c <span class="operator">/</span> b;
         </div>
     </div>
 
-    <!-- Slide 23: Conditions - If/Else If/Else (NEW) --><div class="slide-container" id="slide23">
+    <div class="slide-container" id="slide23">
         <h2 class="slide-title">Conditions: `if`, `else if`, `else`</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1365,7 +1161,7 @@ cout <span class="operator">&lt;&lt;</span> c <span class="operator">/</span> b;
         </div>
     </div>
     
-    <!-- Slide 24: Conditional Operator (Ternary) (NEW) --><div class="slide-container" id="slide24">
+    <div class="slide-container" id="slide24">
         <h2 class="slide-title">Conditional (Ternary) Operator: `? :`</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1379,7 +1175,7 @@ cout <span class="operator">&lt;&lt;</span> c <span class="operator">/</span> b;
                 <div class="code-block"><pre><span class="keyword">int</span> age = <span class="number">20</span>;
 string status;
 
-<span class="comment">// Using if-else</span>
+
 <span class="keyword">if</span> (age <span class="operator">&gt;=</span> <span class="number">18</span>) {
   status = <span class="string">"Adult"</span>;
 } <span class="keyword">else</span> {
@@ -1387,14 +1183,14 @@ string status;
 }
 cout <span class="operator">&lt;&c</span> status <span class="operator">&lt;&lt;</span> endl; <span class="comment">// Adult</span>
 
-<span class="comment">// Using conditional operator</span>
+
 string new_status = (age <span class="operator">&gt;=</span> <span class="number">18</span>) <span class="operator">?</span> <span class="string">"Adult"</span> <span class="operator">:</span> <span class="string">"Minor"</span>;
 cout <span class="operator">&lt;&lt;</span> new_status <span class="operator">&lt;&lt;</span> endl; <span class="comment">// Adult</span></pre></div>
             </div>
         </div>
     </div>
 
-    <!-- Slide 25: Section_Title (NEW) --><div class="slide-container" id="slide25">
+    <div class="slide-container" id="slide25">
         <div class="content-area">
             <div class="section-title-layout">
                 <p>Let's Solve!</p>
@@ -1404,7 +1200,7 @@ cout <span class="operator">&lt;&lt;</span> new_status <span class="operator">&l
         </div>
     </div>
 
-    <!-- Slide 26: Problem 1 (Original) --><div class="slide-container" id="slide26">
+    <div class="slide-container" id="slide26">
         <h2 class="slide-title">Problem: Say Hello</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1420,7 +1216,7 @@ cout <span class="operator">&lt;&lt;</span> new_status <span class="operator">&l
         </div>
     </div>
     
-    <!-- Slide 27: Solution 1 --><div class="slide-container" id="slide27">
+    <div class="slide-container" id="slide27">
         <h2 class="slide-title">Solution: Say Hello</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1447,7 +1243,7 @@ cout <span class="operator">&lt;&lt;</span> new_status <span class="operator">&l
         </div>
     </div>
     
-    <!-- Slide 28: Problem 2 (Original) --><div class="slide-container" id="slide28">
+    <div class="slide-container" id="slide28">
         <h2 class="slide-title">Problem: Basic Calculator</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1467,7 +1263,7 @@ cout <span class="operator">&lt;&lt;</span> new_status <span class="operator">&l
         </div>
     </div>
 
-    <!-- Slide 29: Solution 2 --><div class="slide-container" id="slide29">
+    <div class="slide-container" id="slide29">
         <h2 class="slide-title">Solution: Basic Calculator</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1495,7 +1291,7 @@ cout <span class="operator">&lt;&lt;</span> new_status <span class="operator">&l
         </div>
     </div>
     
-    <!-- Slide 30: Problem 3 (Original) --><div class="slide-container" id="slide30">
+    <div class="slide-container" id="slide30">
         <h2 class="slide-title">Problem: Area of a Circle</h2>
         <div class="content-area">
             <div class="two-column tiled">
@@ -1518,13 +1314,13 @@ cout <span class="operator">&lt;&lt;</span> new_status <span class="operator">&l
         </div>
     </div>
 
-    <!-- Slide 36: Solution 5 --><div class="slide-container" id="slide36">
+    <div class="slide-container" id="slide36">
         <h2 class="slide-title">Solution: Even or Odd</h2>
         <div class="content-area">
             <div class="two-column tiled">
                 <div>
                     <h3>The Solution</h3>
-                    <p>We check if the remainder of <code>N</code> divided by 2 is 0. If it is, the number is even; otherwise, it's odd.</p>
+                    <p>We check if the remainder of f_code>N</code> divided by 2 is 0. If it is, the number is even; otherwise, it's odd.</p>
                 </div>
                 <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
 <span class="keyword">using</span> <span class="keyword">namespace</span> std;
@@ -1548,22 +1344,20 @@ cout <span class="operator">&lt;&lt;</span> new_status <span class="operator">&l
         </div>
     </div>
     
-    <!-- Slide 37: Q&A --><div class="slide-container" id="slide37">
+    <div class="slide-container" id="slide37">
         <div class="content-area">
             <div class="qa-layout">
                 <h2>Questions?</h2>
-                <!-- UPDATED -->
                 <p>Thebes ICPC Newcomers Community</p>
             </div>
         </div>
     </div>
     
-    <!-- Slide 38: Thank You (NEW) --><div class="slide-container" id="slide38">
+    <div class="slide-container" id="slide38">
         <div class="content-area">
             <div class="qa-layout">
                 <h2 style="font-size: 80px;">Thank You!</h2>
                 <p>Let's start solving!</p>
-                <!-- UPDATED CONTACT INFO -->
                 <div class="contact-info">
                     <p style="margin-bottom: 20px;">Join to WhatsApp group</p>
                     <a href="https://chat.whatsapp.com/Jq66BrxfoaYDyVoygCbLY8" target="_blank" class="whatsapp-link">
@@ -1574,7 +1368,8 @@ cout <span class="operator">&lt;&lt;</span> new_status <span class="operator">&l
         </div>
     </div>
 
-</div> <!-- End #presentation-viewer --><!-- New Navigation Controls --><div id="nav-controls">
+</div> 
+<div id="nav-controls">
     <button id="prev-btn"><i class="fa-solid fa-arrow-left"></i> Prev</button>
     <span id="slide-counter"></span>
     <button id="next-btn">Next <i class="fa-solid fa-arrow-right"></i></button>
@@ -1628,8 +1423,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentSlide = index;
         }
 
-        // Update slide counter
-        // UPDATED: Now shows total of 38 slides
+        
         slideCounter.textContent = `Slide ${index + 1} of ${totalSlides}`;
 
         // Update button states
