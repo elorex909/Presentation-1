@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- UPDATED TITLE -->
+    <title>Thebes ICPC Newcomers - Level 0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+/* 1. THE SETUP - CYBERPUNK ICPC THEME */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0A0A1A; /* Very dark blue-purple */
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100vh;
+  padding: 20px 0;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lato', sans-serif;
+  color: #E0E0E0; /* Off-white */
+}
+
+/* New Presentation Viewer Container (ADJUSTED ASPECT RATIO) */
+#presentation-viewer {
+  width: 90vw; /* Slightly less width */
+  max-width: 1366px; /* Example 16:9 or 16:10 aspect for max-width and max-height */
+  height: calc(90vw * 9 / 16); /* Maintain 16:9 aspect ratio */
+  max-height: 768px; /* Example for 16:9 (1366*9/16 = 768.375) */
+  position: relative;
+  box-shadow: 0 0 40px rgba(232, 0, 195, 0.3); /* Neon pink glow */
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #332033; /* Dark magenta border */
+}
+
+.slide-container {
+  align-items: center;
+  background-color: #101020; /* Slightly lighter dark */
+  border-radius: 12px;
+  display: none; /* Hide all slides by default */
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  overflow: hidden;
+  padding: 60px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Active slide class */
+.slide-container.active {
+    display: flex;
+    z-index: 2;
+}
+
+/* 1.1 BACKGROUND STYLING (Subtle Tech Feel) */
+.slide-container::before {
+  content: '';
+  height: 200%;
+  left: -50%;
+  opacity: 0.03; /* Subtle grid */
+  position: absolute;
+  top: -50%;
+  transform: rotate(30deg);
+  width: 200%;
+  z-index: 0;
+  background-image:
+    linear-gradient(#E800C3 1px, transparent 1px), /* Neon Pink grid */
+    linear-gradient(to right, #E800C3 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+
+.slide-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 2. CONSISTENT TYPOGRAPHY */
+
+/* Headings Font */
+.slide-container h1,
+.slide-container h2,
+.slide-container h3 {
+  color: #FFFFFF;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  text-shadow: 0 0 8px rgba(232, 0, 195, 0.5); /* Pink glow */
+}
+
+/* Body Text Font */
+.slide-container p,
+.slide-container li,
+.slide-container .subtitle {
+  color: #D0D0D0; /* Light gray */
+  font-family: 'Lato', sans-serif;
+}
+
+/* Consistent Font Sizes */
+.slide-container h1 {
+  font-size: 80px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.slide-container .slide-title {
+  font-size: 44px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  text-align: left;
+  width: 100%;
+  color: #00F5D4; /* Neon Cyan */
+  text-shadow: 0 0 8px rgba(0, 245, 212, 0.5); /* Cyan glow */
+}
+
+.slide-container h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #E800C3; /* Neon Pink */
+}
+
+/* Unified body text size */
+.slide-container p,
+.slide-container li,
+.slide-container .subtitle {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.slide-container .subtitle {
+  font-size: 24px;
+  font-weight: 400;
+  margin: 20px auto;
+  color: #00F5D4; /* Cyan subtitle */
+}
+
+/* Apply animation to active slide's content */
+.slide-container.active .content-area {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  width: 100%;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* --- ADDED KEYFRAMES --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 3. LAYOUT DEFINITIONS */
+
+/* Title_Slide */
+.title-layout {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.title-layout h1 {
+  font-size: 70px; /* Slightly smaller for new title */
+}
+
+/* Full_Background_Image (Used for Title/Sections) */
+.full-bg-image {
+  background-position: center;
+  background-size: cover;
+  padding: 0; /* No padding for full bleed */
+}
+.full-bg-image .content-overlay {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(16, 16, 32, 0.95), rgba(16, 16, 32, 0.8)); /* Dark overlay */
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.full-bg-image h1 {
+    font-size: 90px;
+}
+
+/* Section_Title */
+.section-title-layout {
+  text-align: center;
+}
+.section-title-layout h2 {
+    font-size: 70px;
+    color: #FFFFFF;
+    text-shadow: 0 0 15px rgba(232, 0, 195, 0.7);
+}
+.section-title-layout p {
+    font-size: 24px;
+    color: #00F5D4;
+}
+.section-title-layout hr {
+    height: 4px;
+    width: 100px;
+    background-color: #E800C3;
+    border: none;
+    border-radius: 2px;
+    margin: 30px auto;
+    box-shadow: 0 0 10px rgba(232, 0, 195, 0.5);
+}
+
+
+/* Two_Column_Tiled_Text */
+.two-column {
+  align-items: flex-start;
+  display: grid;
+  /* MODIFIED: Give code block more space */
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 50px;
+  width: 100%;
+}
+.two-column.tiled {
+  align-items: stretch;
+}
+.two-column.tiled > div {
+  background-color: #1A1A2A; /* Darker tile */
+  border-radius: 12px;
+  border: 1px solid #332033; /* Pink border */
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 15px rgba(232, 0, 195, 0.1);
+  /* ADDED: Prevent overflow */
+  max-height: 550px; /* Max height for content */
+}
+.two-column.tiled > div ul {
+  padding-left: 20px;
+}
+
+
+/* Code Block Styling */
+.code-block {
+  background-color: #0A0A1A; /* Black bg */
+  border: 1px solid #00F5D4; /* Cyan border */
+  border-radius: 6px;
+  padding: 0; /* MODIFIED: Removed padding */
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  /* white-space: pre-wrap; */ /* REMOVED */
+  color: #E0E0E0;
+  /* MODIFIED: Allow scrolling if code is too long */
+  overflow-y: auto; 
+  flex-grow: 1;
+  box-shadow: 0 0 15px rgba(0, 245, 212, 0.2);
+  /* ADDED: ensure it doesn't try to be 100% of a flex parent's height */
+  height: auto; 
+}
+
+/* ADDED: New <pre> tag styling */
+.code-block pre {
+    margin: 0;
+    padding: 20px;
+    white-space: pre-wrap;
+    word-wrap: break-word; /* Ensure long lines wrap */
+}
+
+.code-block .comment { color: #6A6A8A; }
+.code-block .keyword { color: #E800C3; font-weight: bold; }
+.code-block .function { color: #00F5D4; }
+.code-block .string { color: #F59E0B; }
+.code-block .number { color: #30A0FF; }
+.code-block .operator { color: #E800C3; }
+.code-block .preprocessor { color: #6A6A8A; font-style: italic; }
+
+/* Rounded_Image_and_Text */
+.rounded-image-layout .image-wrapper {
+  border-radius: 50%;
+  flex-shrink: 0;
+  height: 300px;
+  width: 300px;
+  margin: 0 auto;
+  border: 4px solid #E800C3; /* Pink border */
+  background-color: #1A1A2A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 20px rgba(232, 0, 195, 0.3);
+  /* ADDED: Ensure image fits */
+  overflow: hidden; 
+}
+.rounded-image-layout .image-wrapper:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(232, 0, 195, 0.6);
+}
+.rounded-image-layout .image-wrapper i {
+  font-size: 120px;
+  color: #E800C3; /* Pink icon */
+}
+/* ADDED: Style for instructor image */
+.rounded-image-layout .image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rounded-image-layout.two-column {
+  align-items: center;
+}
+
+/* Tiled_Text_With_Icons */
+.tiled-content {
+  align-items: stretch;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  width: 100%;
+}
+.tile {
+  align-items: center;
+  background-color: #1A1A2A;
+  border-radius: 12px;
+  border: 1px solid #332033;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-start;
+  padding: 30px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.tile:hover {
+  transform: translateY(-10px);
+  border-color: #00F5D4; /* Cyan highlight */
+  box-shadow: 0 10px 30px rgba(0, 245, 212, 0.2);
+}
+.tile .icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #00F5D4; /* Cyan icon */
+}
+.tile:hover .icon {
+  color: #FFFFFF;
+}
+.tile h3 {
+    color: #FFFFFF;
+    text-shadow: none;
+}
+.tile:hover h3 {
+    color: #00F5D4;
+}
+
+/* Styled_Bullet_Points */
+.bullet-list {
+  max-width: 900px;
+  width: 100%;
+}
+.bullet-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.bullet-list li {
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+}
+.bullet-list i {
+  color: #E800C3; /* Pink icon */
+  font-size: 24px;
+  text-align: center;
+  width: 30px;
+  flex-shrink: 0;
+  padding-top: 4px; /* Align with text */
+}
+.bullet-list li strong {
+  color: #00F5D4; /* Cyan highlight */
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  margin-right: 5px;
+}
+.bullet-list li code {
+  background-color: #1A1A2A;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
+  color: #00F5D4;
+}
+/* ADDED: Style for small notes in lists */
+.bullet-list li small {
+  color: #a0a0a0; /* Lighter gray for note */
+  font-style: italic;
+  display: inline-block; /* Allow spacing */
+  margin-top: 5px;
+}
+
+/* Q&A */
+.qa-layout {
+  text-align: center;
+  width: 100%;
+  align-self: center;
+}
+.qa-layout h2 {
+  font-size: 90px;
+  margin-bottom: 20px;
+  color: #E800C3;
+}
+.qa-layout p {
+  font-size: 24px;
+  color: #00F5D4;
+}
+.qa-layout .contact-info {
+  color: #D0D0D0;
+  font-size: 20px;
+  margin-top: 40px;
+  letter-spacing: 1px;
+}
+
+/* ADDED for WhatsApp Link */
+.qa-layout .contact-info .whatsapp-link {
+    font-size: 60px; /* Make icon larger */
+    color: #25D366; /* WhatsApp Green */
+    text-decoration: none;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+.qa-layout .contact-info .whatsapp-link:hover {
+    color: #128C7E; /* Darker WhatsApp Green */
+    transform: scale(1.1);
+}
+.qa-layout .contact-info p {
+    font-size: 20px;
+    color: #D0D0D0;
+    margin: 0; /* Adjust margin for new layout */
+}
+
+
+/* 4. NAVIGATION CONTROLS */
+#nav-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1280px;
+    margin-top: 20px;
+}
+#nav-controls button {
+    background-color: #E800C3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 0 10px;
+    box-shadow: 0 0 15px rgba(232, 0, 195, 0.4);
+}
+#nav-controls button:hover {
+    background-color: #FF00FF; /* Brighter pink */
+    box-shadow: 0 0 25px rgba(232, 0, 195, 0.7);
+}
+#nav-controls button:disabled {
+    background-color: #332033; /* Muted pink */
+    color: #6A6A8A;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+#slide-counter {
+    color: #00F5D4;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    width: 120px; /* Wider for 50 slides */
+    text-align: center;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- New Presentation Viewer --><div id="presentation-viewer">
+
+    <!-- Slide 1: Title_Slide --><div class="slide-container" id="slide1">
+      <div class="content-area">
+        <div class="title-layout">
+            <!-- UPDATED -->
+            <h1>Level 0: C++ Basics<br>Thebes ICPC Newcomers</h1>
+            <p class="subtitle">Your journey into competitive programming starts NOW.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 2: NEW Instructor Slide --><div class="slide-container" id="slide2">
+        <h2 class="slide-title">About Your Instructor</h2>
+        <div class="content-area">
+            <div class="two-column rounded-image-layout">
+                <div>
+                    <!-- Use the uploaded image --><div class="image-wrapper">
+                        <img src="5778535814672354258_121.jp" alt="Photo of the instructor">
+                    </div>
+                </div>
+                <div>
+                    <h3>Ahmed Hassan</h3>
+                    <p>Hello everyone! I'm your instructor for this Level 0 bootcamp.</p>
+                    <ul>
+                        <li><i class="fa-solid fa-user" style="color: #00F5D4;"></i> A 2nd-year Computer Science student, just like you.</li>
+                        <li><i class="fa-solid fa-laptop-code" style="color: #00F5D4;"></i> Passionate about problem-solving and ICPC.</li>
+                        <li><i class="fa-solid fa-hands-helping" style="color: #00F5D4;"></i> My goal is to get you all comfortable with C++ and ready for your first contest!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- **** NEW SLIDE 3: ZIAD **** --><div class="slide-container" id="slide3">
+        <h2 class="slide-title">Meet Your Mentor</h2>
+        <div class="content-area">
+            <div class="two-column rounded-image-layout">
+                <div>
+                    <!-- Placeholder for Ziad's photo -->
+                    <div class="image-wrapper">
+                        <!-- UPDATED: Added Ziad's photo src and changed display styles -->
+                        <img src="IMG_20251018_1238301.jpg" alt="Photo of Ziad" style="display: block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <i class="fa-solid fa-user-astronaut" style="display: none; font-size: 120px; color: #00F5D4;"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3>Ziad</h3>
+                    <p>Hello! I'm Ziad, and I'll be helping Ahmed mentor this level.</p>
+                    <ul>
+                        <li><i class="fa-solid fa-star" style="color: #00F5D4;"></i> Mentor at Thebes & CIS.</li>
+                        <li><i class="fa-solid fa-brain" style="color: #00F5D4;"></i> Passionate about Data Structures and Algorithms.</li>
+                        <li><i class="fa-solid fa-hands-helping" style="color: #00F5D4;"></i> Here to help you level up and solve complex problems!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Who Are We? (Old Slide 3) --><div class="slide-container" id="slide4">
+        <h2 class="slide-title">Who Are We?</h2>
+        <div class="content-area">
+            <div class="two-column rounded-image-layout">
+                <div>
+                    <div class="image-wrapper"><i class="fa-solid fa-users"></i></div>
+                </div>
+                <div>
+                    <h3>A Community of Solvers</h3>
+                    <!-- UPDATED -->
+                    <p>The <strong>Thebes ICPC Community</strong> is a student-led organization dedicated to fostering a passion for problem-solving and competitive programming (CP).</p>
+                    <p>We are here to train, mentor, and support you.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: What is the ICPC? (Old Slide 4) --><div class="slide-container" id="slide5">
+        <h2 class="slide-title">What is the ICPC?</h2>
+        <div class="content-area">
+            <div class="two-column rounded-image-layout">
+                <div>
+                    <h3>The Olympics of Programming</h3>
+                    <p>The <strong>International Collegiate Programming Contest</strong> is the oldest, largest, and most prestigious university-level programming competition in the world.</p>
+                </div>
+                <div>
+                    <div class="image-wrapper"><i class="fa-solid fa-trophy"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Why Join? (Old Slide 5) --><div class="slide-container" id="slide6">
+        <h2 class="slide-title">Why Should You Join?</h2>
+        <div class="content-area">
+            <div class="bullet-list">
+                <ul>
+                    <li><i class="fa-solid fa-brain"></i> <strong>Think Smarter:</strong> Drastically improve your problem-solving and logic skills.</li>
+                    <li><i class="fa-solid fa-gauge-high"></i> <strong>Code Faster:</strong> Learn to write bug-free, efficient C++ code under pressure.</li>
+                    <li><i class="fa-solid fa-briefcase"></i> <strong>Career Boost:</strong> Top tech companies actively recruit ICPC competitors.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 7: Mindset (Old Slide 6) --><div class="slide-container" id="slide7">
+        <h2 class="slide-title">The Mindset Shift</h2>
+        <div class="content-area">
+            <div class="two-column rounded-image-layout">
+                <div>
+                    <div class="image-wrapper"><i class="fa-solid fa-lightbulb"></i></div>
+                </div>
+                <div>
+                    <h3>Student vs. Problem Solver</h3>
+                    <p><strong>Student Mindset:</strong> "What do I need to learn to pass the test?"</p>
+                    <p><strong>Solver Mindset:</strong> "What is the most efficient and robust way to solve this problem?"</p>
+                    <p>We are here to build the Solver Mindset.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Section_Title (NEW) --><div class="slide-container" id="slide8">
+        <div class="content-area">
+            <div class="section-title-layout">
+                <p>Session 1</p>
+                <h2>C++ Programming Basics</h2>
+                <hr>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 9: Topics (NEW) --><div class="slide-container" id="slide9">
+        <h2 class="slide-title">Today's Topics</h2>
+        <div class="content-area">
+            <div class="bullet-list">
+                <ul>
+                    <li><i class="fa-solid fa-question-circle"></i> What is Programming?</li>
+                    <li><i class="fa-solid fa-cogs"></i> What is C++ and Why do we use it?</li>
+                    <li><i class="fa-solid fa-terminal"></i> Your First Program (Boilerplate)</li>
+                    <li><i class="fa-solid fa-right-left"></i> Input & Output (I/O)</li>
+                    <li><i class="fa-solid fa-box"></i> Variables</li>
+                    <li><i class="fa-solid fa-tags"></i> Data Types (int, double, char, string, bool)</li>
+                    <li><i class="fa-solid fa-calculator"></i> Operators (Arithmetic, Comparison, Logical)</li>
+                    <li><i class="fa-solid fa-code-branch"></i> **Conditions (`if`/`else if`/`else`)**</li>
+                    <li><i class="fa-solid fa-question"></i> **Conditional Operator (`? :`)**</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: What is Programming? (NEW) --><div class="slide-container" id="slide10">
+        <h2 class="slide-title">What is Programming?</h2>
+        <div class="content-area">
+            <div class="two-column rounded-image-layout">
+                <div>
+                    <h3>Giving Instructions</h3>
+                    <p>Programming is simply the process of writing instructions for a computer to follow.</p>
+                    <p>We use a <strong>programming language</strong> (like C++) to write these instructions in a way the computer can understand.</p>
+                </div>
+                <div>
+                    <div class="image-wrapper"><i class="fa-solid fa-scroll"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 11: Why C++? (Combined) --><div class="slide-container" id="slide11">
+        <h2 class="slide-title">Why C++ for ICPC?</h2>
+        <div class="content-area">
+            <div class="two-column rounded-image-layout">
+                <div>
+                    <h3>Speed and Power</h3>
+                    <p>C++ is incredibly fast, giving you an edge where every millisecond counts.</p>
+                    <p>The <strong>Standard Template Library (STL)</strong> provides all the essential data structures and algorithms you'll need, pre-built and optimized.</p>
+                </div>
+                <div>
+                    <div class="image-wrapper"><i class="fa-solid fa-rocket"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 12: Boilerplate (NEW) --><div class="slide-container" id="slide12">
+        <h2 class="slide-title">Your First C++ Program</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The "Boilerplate"</h3>
+                    <p>This is the basic template you'll start every program with. It includes the necessary libraries and sets up the main function where your code runs.</p>
+                </div>
+                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+  <span class="comment">// Your code goes here</span>
+  <!-- UPDATED -->
+  cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, Thebes ICPC!"</span>;
+
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13: Boilerplate Explained (NEW) --><div class="slide-container" id="slide13">
+        <h2 class="slide-title">Boilerplate Explained</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <ul>
+                        <li><code>#include &lt;iostream&gt;</code>: Includes the library for <strong>I</strong>nput/<strong>O</strong>utput (like <code>cin</code> and <code>cout</code>).</li>
+                        <li><code>using namespace std;</code>: A shortcut so we can write <code>cout</code> instead of <code>std::cout</code>.</li>
+                        <li><code>int main() { ... }</code>: The main "function" where your program's execution begins.</li>
+                        <li><code>cout &lt;&lt; ...;</code>: Prints to the console.</li>
+                        <li><code>return 0;</code>: Tells the OS the program finished successfully.</li>
+                    </ul>
+                </div>
+                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+  <span class="comment">// Your code goes here</span>
+  <!-- UPDATED -->
+  cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, Thebes ICPC!"</span>;
+
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 14: Basic I/O (NEW) --><div class="slide-container" id="slide14">
+        <h2 class="slide-title">Input & Output (I/O)</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3><code>cin</code> and <code>cout</code></h3>
+                    <p><code>cout</code> (see-out) prints data to the console.</p>
+                    <p><code>cin</code> (see-in) reads data from the console into a variable.</p>
+                    <p>Use <code>&lt;&lt;</code> with <code>cout</code> and <code>&gt;&gt;</code> with <code>cin</code>.</p>
+                </div>
+                <div class="code-block"><pre><span class="keyword">int</span> age;
+
+<span class="comment">// 1. Print a prompt</span>
+cout <span class="operator">&lt;&lt;</span> <span class="string">"Enter your age: "</span>;
+
+<span class="comment">// 2. Read input into the 'age' variable</span>
+cin <span class="operator">&gt;&gt;</span> age;
+
+<span class="comment">// 3. Print the variable</span>
+cout <span class="operator">&lt;&lt;</span> <span class="string">"You are "</span> <span class="operator">&lt;&lt;</span> age <span class="operator">&lt;&lt;</span> <span class="string">" years old."</span>;</pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 15: Fast I/O (Kept from old) --><div class="slide-container" id="slide15">
+        <h2 class="slide-title">Fast I/O (Very Important!)</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>Why? <code>cin</code>/<code>cout</code> are slow!</h3>
+                    <p>By default, C++ I/O is slow. For large inputs in contests, this can cause a "Time Limit Exceeded" (TLE) error.</p>
+                    <p><strong>Always</strong> add these two lines to the start of your <code>main</code> function to make I/O fast.</p>
+                </div>
+                <div class="code-block"><pre><span class="keyword">int</span> <span class="function">main</span>() {
+  <span class="comment">// Add these two lines!</span>
+  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
+  <span class="function">cin.tie</span>(NULL);
+  
+  <span class="comment">// Now your cin/cout are fast</span>
+  <span class="keyword">int</span> n;
+  cin <span class="operator">&gt;&gt;</span> n;
+  cout <span class="operator">&lt;&lt;</span> n;
+  
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 16: Variables (NEW) --><div class="slide-container" id="slide16">
+        <h2 class="slide-title">What are Variables?</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>Memory Boxes</h3>
+                    <p>A variable is a container in memory to store a piece of data. It has a **type**, a **name**, and a **value**.</p>
+                    <ul>
+                        <li><strong>Declaration:</strong> Give it a type and a name.
+                        <br><code>int score;</code></li>
+                        <li><strong>Initialization:</strong> Give it an initial value.
+                        <br><code>int score = 100;</code></li>
+                    </ul>
+                </div>
+                <div class="code-block"><pre><span class="comment">// Type: int (integer)</span>
+<span class="comment">// Name: score</span>
+<span class="comment">// Value: 100</span>
+<span class="keyword">int</span> score = <span class="number">100</span>;
+
+<span class="comment">// You can change the value</span>
+score = <span class="number">150</span>;
+
+<span class="comment">// You can use it</span>
+cout <span class="operator">&lt;&lt;</span> score; <span class="comment">// Prints 150</span></pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 17: Data Types (NEW) --><div class="slide-container" id="slide17">
+        <h2 class="slide-title">Core Data Types</h2>
+        <div class="content-area">
+            <div class="bullet-list">
+                <ul>
+                    <li><i class="fa-solid fa-hashtag"></i> <strong>int:</strong> For whole numbers (integers).
+                    <br><code>int age = 20;</code></li>
+                    <li><i class="fa-solid fa-water"></i> <strong>float / double:</strong> For decimal (floating-point) numbers.
+                    <br><code>float price = 10.99;</code>
+                    <br><code>double pi = 3.14159;</code>
+                    <br><small>In contests, <strong>always use <code>double</code></strong>! It has much better precision.</small></li>
+                    <li><i class="fa-solid fa-font"></i> <strong>char:</strong> For a *single* character. Uses single quotes.
+                    <br><code>char grade = 'A';</code></li>
+                    <li><i class="fa-solid fa-toggle-on"></i> <strong>bool:</strong> For logical values, either <code>true</code> or <code>false</code>.
+                    <br><code>bool is_ready = true;</code></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 18: string (NEW) --><div class="slide-container" id="slide18">
+        <h2 class="slide-title">Data Type: <code>string</code></h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>Text Data</h3>
+                    <p>A <code>string</code> is a special type for storing text (a sequence of characters). It requires <code>#include &lt;string&gt;</code> (or <code>bits/stdc++.h</code>) and uses double quotes.</p>
+                </div>
+                <div class="code-block"><pre><span class="preprocessor">#include &lt;string&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> std;
+
+<span class="comment">// Declaration and Initialization</span>
+string name = <span class="string">"Ahmed"</span>;
+
+<span class="comment">// Reading a string (reads up to a space)</span>
+cin <span class="operator">&gt;&gt;</span> name;
+
+<span class="comment">// Printing a string</span>
+cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, "</span> <span class="operator">&lt;&lt;</span> name;</pre></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 19: Operators - Arithmetic (NEW) --><div class="slide-container" id="slide19">
+        <h2 class="slide-title">Operators: Arithmetic</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>Basic Math</h3>
+                    <p>Used to perform mathematical calculations.</p>
+                    <ul>
+                        <li><code>+</code> (Add)</li>
+                        <li><code>-</code> (Subtract)</li>
+                        <li><code>*</code> (Multiply)</li>
+                        <li><code>/</code> (Divide)</li>
+                        <li><code>%</code> (Modulo/Remainder)</li>
+                    </ul>
+                </div>
+                <div class="code-block"><pre><span class="keyword">int</span> a = <span class="number">10</span>;
+<span class="keyword">int</span> b = <span class="number">3</span>;
+
+cout <span class="operator">&lt;&lt;</span> a <span class="operator">+</span> b; <span class="comment">// 13</span>
+cout <span class="operator">&lt;&lt;</span> a <span class="operator">-</span> b; <span class="comment">// 7</span>
+cout <span class="operator">&lt;&lt;</span> a <span class="operator">*</span> b; <span class="comment">// 30</span>
+cout <span class="operator">&lt;&lt;</span> a <span class="operator">/</span> b; <span class="comment">// 3 (int division!)</span>
+cout <span class="operator">&lt;&lt;</span> a <span class="operator">%</span> b; <span class="comment">// 1 (the remainder)</span>
+
+<span class="keyword">double</span> c = <span class="number">10.0</span>;
+cout <span class="operator">&lt;&lt;</span> c <span class="operator">/</span> b; <span class="comment">// 3.333...</span></pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 20: Operators - Assignment/Comparison (NEW) --><div class="slide-container" id="slide20">
+        <h2 class="slide-title">Operators: Assignment & Comparison</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>Assignment</h3>
+                    <p>Used to assign values.</p>
+                    <ul>
+                        <li><code>=</code> (Assign value)</li>
+                        <li><code>+=</code> (Add to self)</li>
+                        <li><code>-=</code> (Subtract from self)</li>
+                        <li><code>*=</code> <code>/=</code> <code>%=</code> (etc.)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Comparison</h3>
+                    <p>Used to compare values. Result is a <code>bool</code> (true/false).</p>
+                    <ul>
+                        <li><code>==</code> (Equal to)</li>
+                        <li><code>!=</code> (Not equal to)</li>
+                        <li><code>&gt;</code> (Greater than)</li>
+                        <li><code>&lt;</code> (Less than)</li>
+                        <li><code>&gt;=</code> <code>&lt;=</code> (Greater/Less than or equal)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 21: Operators - Logical (NEW) --><div class="slide-container" id="slide21">
+        <h2 class="slide-title">Operators: Logical</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>Combining Conditions</h3>
+                    <p>Used to combine <code>bool</code> values.</p>
+                    <ul>
+                        <li><code>&amp;&amp;</code> (AND): <code>true</code> only if *both* sides are true.</li>
+                        <li><code>||</code> (OR): <code>true</code> if *at least one* side is true.</li>
+                        <li><code>!</code> (NOT): Flips <code>true</code> to <code>false</code> and <code>false</code> to <code>true</code>.</li>
+                    </ul>
+                </div>
+                <div class="code-block"><pre><span class="keyword">int</span> age = <span class="number">20</span>;
+<span class="keyword">bool</span> has_ticket = <span class="keyword">true</span>;
+
+<span class="comment">// (true AND true) -> true</span>
+<span class="keyword">bool</span> can_enter = (age <span class="operator">&gt;</span> <span class="number">18</span>) <span class="operator">&amp;&amp;</span> (has_ticket);
+
+<span class="comment">// (true OR false) -> true</span>
+<span class="keyword">bool</span> is_vip = (age <span class="operator">&gt;</span> <span class="number">65</span>) <span class="operator">||</span> (has_ticket);
+
+<span class="comment">// !(true) -> false</span>
+<span class="keyword">bool</span> no_ticket = <span class="operator">!</span>has_ticket;</pre></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 22: Section_Title (NEW) --><div class="slide-container" id="slide22">
+        <div class="content-area">
+            <div class="section-title-layout">
+                <p>Decision Making</p>
+                <h2>Conditions & Operators</h2>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 23: Conditions - If/Else If/Else (NEW) --><div class="slide-container" id="slide23">
+        <h2 class="slide-title">Conditions: `if`, `else if`, `else`</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>Making Choices</h3>
+                    <p>Conditions allow your program to execute different blocks of code based on whether an expression is <code>true</code> or <code>false</code>.</p>
+                    <ul>
+                        <li><code>if</code>: Executes code if its condition is true.</li>
+                        <li><code>else if</code>: Checks another condition if the previous <code>if</code>/<code>else if</code> was false.</li>
+                        <li><code>else</code>: Executes code if all preceding <code>if</code>/<code>else if</code> conditions were false.</li>
+                    </ul>
+                </div>
+                <div class="code-block"><pre><span class="keyword">int</span> num = <span class="number">10</span>;
+
+<span class="keyword">if</span> (num <span class="operator">&gt;</span> <span class="number">0</span>) {
+  cout <span class="operator">&lt;&lt;</span> <span class="string">"Positive"</span> <span class="operator">&lt;&lt;</span> endl;
+} <span class="keyword">else</span> <span class="keyword">if</span> (num <span class="operator">&lt;</span> <span class="number">0</span>) {
+  cout <span class="operator">&lt;&lt;</span> <span class="string">"Negative"</span> <span class="operator">&lt;&lt;</span> endl;
+} <span class="keyword">else</span> {
+  cout <span class="operator">&lt;&lt;</span> <span class="string">"Zero"</span> <span class="operator">&lt;&lt;</span> endl;
+}</pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 24: Conditional Operator (Ternary) (NEW) --><div class="slide-container" id="slide24">
+        <h2 class="slide-title">Conditional (Ternary) Operator: `? :`</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>Shorthand `if-else`</h3>
+                    <p>A concise way to write simple `if-else` statements, often used for assigning a value based on a condition.</p>
+                    <p><strong>Syntax:</strong><br>
+                    `condition ? expression_if_true : expression_if_false;`</p>
+                    <p>It's an *expression* that returns a value, not a statement.</p>
+                </div>
+                <div class="code-block"><pre><span class="keyword">int</span> age = <span class="number">20</span>;
+string status;
+
+<span class="comment">// Using if-else</span>
+<span class="keyword">if</span> (age <span class="operator">&gt;=</span> <span class="number">18</span>) {
+  status = <span class="string">"Adult"</span>;
+} <span class="keyword">else</span> {
+  status = <span class="string">"Minor"</span>;
+}
+cout <span class="operator">&lt;&lt;</span> status <span class="operator">&lt;&lt;</span> endl; <span class="comment">// Adult</span>
+
+<span class="comment">// Using conditional operator</span>
+string new_status = (age <span class="operator">&gt;=</span> <span class="number">18</span>) <span class="operator">?</span> <span class="string">"Adult"</span> <span class="operator">:</span> <span class="string">"Minor"</span>;
+cout <span class="operator">&lt;&lt;</span> new_status <span class="operator">&lt;&lt;</span> endl; <span class="comment">// Adult</span></pre></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 25: Section_Title (NEW) --><div class="slide-container" id="slide25">
+        <div class="content-area">
+            <div class="section-title-layout">
+                <p>Let's Solve!</p>
+                <h2>Sheet 1 Problems (Continued)</h2>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 26: Problem 1 (Original) --><div class="slide-container" id="slide26">
+        <h2 class="slide-title">Problem: Say Hello</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The Problem</h3>
+                    <p>Read a <code>string</code> containing a user's name and print "Hello, [Name]".</p>
+                    <p><strong>Input:</strong><br><code>Ahmed</code></p>
+                    <p><strong>Output:</strong><br><code>Hello, Ahmed</code></p>
+                </div>
+                <div class="code-block"><pre><span class="comment">// Problem description on this side</span>
+<span class="comment">// Solution will be on the next slide</span></pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 27: Solution 1 --><div class="slide-container" id="slide27">
+        <h2 class="slide-title">Solution: Say Hello</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The Solution</h3>
+                    <p>We simply need to declare a string, read the name using <code>cin</code>, and then print the greeting with the name.</p>
+                </div>
+                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;string&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
+  <span class="function">cin.tie</span>(NULL);
+  
+  string name;
+  cin <span class="operator">&gt;&gt;</span> name;
+  
+  cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, "</span> <span class="operator">&lt;&lt;</span> name;
+  
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 28: Problem 2 (Original) --><div class="slide-container" id="slide28">
+        <h2 class="slide-title">Problem: Basic Calculator</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The Problem</h3>
+                    <p>Read two integers, <code>A</code> and <code>B</code>. Print their sum, difference, and product.</p>
+                    <p><strong>Input:</strong><br><code>10 5</code></p>
+                    <p><strong>Output:</strong><br>
+                    <code>10 + 5 = 15</code><br>
+                    <code>10 - 5 = 5</code><br>
+                    <code>10 * 5 = 50</code>
+                    </p>
+                </div>
+                <div class="code-block"><pre><span class="comment">// Problem description on this side</span>
+<span class="comment">// Solution will be on the next slide</span></pre></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 29: Solution 2 --><div class="slide-container" id="slide29">
+        <h2 class="slide-title">Solution: Basic Calculator</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The Solution</h3>
+                    <p>We read two numbers and then perform the arithmetic operations, printing each result on a new line using <code>endl</code>.</p>
+                </div>
+                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
+  <span class="function">cin.tie</span>(NULL);
+  
+  <span class="keyword">long</span> <span class="keyword">long</span> A, B; <span class="comment">// Use long long just in case</span>
+  cin <span class="operator">&gt;&gt;</span> A <span class="operator">&gt;&gt;</span> B;
+  
+  cout <span class="operator">&lt;&lt;</span> A <span class="operator">&lt;&lt;</span> <span class="string">" + "</span> <span class="operator">&lt;&lt;</span> B <span class="operator">&lt;&lt;</span> <span class="string">" = "</span> <span class="operator">&lt;&lt;</span> (A <span class="operator">+</span> B) <span class="operator">&lt;&lt;</span> endl;
+  cout <span class="operator">&lt;&lt;</span> A <span class="operator">&lt;&lt;</span> <span class="string">" - "</span> <span class="operator">&lt;&lt;</span> B <span class="operator">&lt;&lt;</span> <span class="string">" = "</span> <span class="operator">&lt;&lt;</span> (A <span class="operator">-</span> B) <span class="operator">&lt;&lt;</span> endl;
+  cout <span class="operator">&lt;&lt;</span> A <span class="operator">&lt;&lt;</span> <span class="string">" * "</span> <span class="operator">&lt;&lt;</span> B <span class="operator">&lt;&lt;</span> <span class="string">" = "</span> <span class="operator">&lt;&Z;</span> (A <span class="operator">*</span> B) <span class="operator">&lt;&lt;</span> endl;
+  
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 30: Problem 3 (Original) --><div class="slide-container" id="slide30">
+        <h2 class="slide-title">Problem: Area of a Circle</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The Problem</h3>
+                    <p>Read one <code>double</code> number <code>R</code> (the radius). Calculate and print the area of the circle.</p>
+                    <p>Formula: <code>Area = PI * R * R</code></p>
+                    <p>Use <code>PI = 3.141592653</code>. You must print the answer with high precision.</p>
+                </div>
+                <div class="code-block"><pre><span class="comment">// Problem description on this side</span>
+<span class="comment">// Solution will be on the next slide</span></pre></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 31: Solution 3 --><div class="slide-container" id="slide31">
+        <h2 class="slide-title">Solution: Area of a Circle</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The Solution</h3>
+                    <p>We read the radius as a <code>double</code>, calculate the area, and use <code>fixed</code> and <code>setprecision(9)</code> from <code>&lt;iomanip&gt;</code> to print with the required precision.</p>
+                </div>
+                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;iomanip&gt;</span> <span class="comment">// For setprecision</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
+  <span class="function">cin.tie</span>(NULL);
+  
+  <span class="keyword">double</span> R;
+  <span class="keyword">const</span> <span class="keyword">double</span> PI = <span class="number">3.141592653</span>;
+  
+  cin <span class="operator">&gt;&gt;</span> R;
+  
+  <span class="keyword">double</span> area = PI <span class="operator">*</span> R <span class="operator">*</span> R;
+  
+  cout <span class="operator">&lt;&lt;</span> <span class="function">fixed</span> <span class="operator">&lt;&lt;</span> <span class="function">setprecision</span>(<span class="number">9</span>) <span class="operator">&lt;&lt;</span> area;
+  
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 32: Problem 4 (NEW) --><div class="slide-container" id="slide32">
+        <h2 class="slide-title">Problem: Max of Two Numbers</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The Problem</h3>
+                    <p>Read two integers, <code>X</code> and <code>Y</code>. Print the larger of the two.</p>
+                    <p><strong>Input:</strong><br><code>15 7</code></p>
+                    <p><strong>Output:</strong><br><code>15</code></p>
+                    <p><strong>Input:</strong><br><code>4 9</code></p>
+                    <p><strong>Output:</strong><br><code>9</code></p>
+                </div>
+                <div class="code-block"><pre><span class="comment">// Problem description on this side</span>
+<span class="comment">// Solution will be on the next slide</span></pre></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 33: Solution 4 (Max of Two Numbers - using if/else) --><div class="slide-container" id="slide33">
+        <h2 class="slide-title">Solution: Max of Two Numbers (`if-else`)</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The Solution</h3>
+                    <p>We use an <code>if-else</code> statement to compare <code>X</code> and <code>Y</code>, printing the one that is greater.</p>
+                </div>
+                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
+  <span class="function">cin.tie</span>(NULL);
+  
+  <span class="keyword">int</span> X, Y;
+  cin <span class="operator">&gt;&gt;</span> X <span class="operator">&gt;&gt;</span> Y;
+  
+  <span class="keyword">if</span> (X <span class="operator">&gt;</span> Y) {
+    cout <span class="operator">&lt;&lt;</span> X;
+  } <span class="keyword">else</span> {
+    cout <span class="operator">&lt;&lt;</span> Y;
+  }
+  
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 34: Solution 4 (Max of Two Numbers - using conditional operator) --><div class="slide-container" id="slide34">
+        <h2 class="slide-title">Solution: Max of Two Numbers (Conditional Op)</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>Alternative Solution</h3>
+                    <p>We can achieve the same result more compactly using the conditional (ternary) operator. This assigns the larger value directly.</p>
+                </div>
+                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
+  <span class="function">cin.tie</span>(NULL);
+  
+  <span class="keyword">int</span> X, Y;
+  cin <span class="operator">&gt;&gt;</span> X <span class="operator">&gt;&gt;</span> Y;
+  
+  <span class="comment">// Assign the maximum value to 'max_val'</span>
+  <span class="keyword">int</span> max_val = (X <span class="operator">&gt;</span> Y) <span class="operator">?</span> X <span class="operator">:</span> Y;
+  cout <span class="operator">&lt;&lt;</span> max_val;
+  
+  <span class="comment">// Or print directly</span>
+  <span class="comment">// cout << ((X > Y) ? X : Y);</span>
+  
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 35: Problem 5 (NEW) --><div class="slide-container" id="slide35">
+        <h2 class="slide-title">Problem: Even or Odd</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The Problem</h3>
+                    <p>Read an integer <code>N</code>. Print "Even" if <code>N</code> is even, and "Odd" if <code>N</code> is odd.</p>
+                    <p><strong>Hint:</strong> Use the modulo operator (<code>%</code>) to check for a remainder when dividing by 2.</p>
+                    <p><strong>Input:</strong><br><code>4</code></p>
+                    <p><strong>Output:</strong><br><code>Even</code></p>
+                    <p><strong>Input:</strong><br><code>7</code></p>
+                    <p><strong>Output:</strong><br><code>Odd</code></p>
+                </div>
+                <div class="code-block"><pre><span class="comment">// Problem description on this side</span>
+<span class="comment">// Solution will be on the next slide</span></pre></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 36: Solution 5 --><div class="slide-container" id="slide36">
+        <h2 class="slide-title">Solution: Even or Odd</h2>
+        <div class="content-area">
+            <div class="two-column tiled">
+                <div>
+                    <h3>The Solution</h3>
+                    <p>We check if the remainder of Tinasok-tinasok ni <code>N</code> divided by 2 is 0. If it is, the number is even; otherwise, it's odd.</p>
+                </div>
+                <div class="code-block"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+  <span class="function">ios_base::sync_with_stdio</span>(<span class="keyword">false</span>);
+  <span class="function">cin.tie</span>(NULL);
+  
+  <span class="keyword">int</span> N;
+  cin <span class="operator">&gt;&gt;</span> N;
+  
+  <span class="keyword">if</span> (N <span class="operator">%</span> <span class="number">2</span> <span class="operator">==</span> <span class="number">0</span>) {
+    cout <span class="operator">&lt;&lt;</span> <span class="string">"Even"</span>;
+  } <span class="keyword">else</span> {
+    cout <span class="operator">&lt;&Z;</span> <span class="string">"Odd"</span>;
+  }
+  
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 37: Q&A --><div class="slide-container" id="slide37">
+        <div class="content-area">
+            <div class="qa-layout">
+                <h2>Questions?</h2>
+                <!-- UPDATED -->
+                <p>Thebes ICPC Newcomers Community</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 38: Thank You (NEW) --><div class="slide-container" id="slide38">
+        <div class="content-area">
+            <div class="qa-layout">
+                <h2 style="font-size: 80px;">Thank You!</h2>
+                <p>Let's start solving!</p>
+                <!-- UPDATED CONTACT INFO -->
+                <div class="contact-info">
+                    <p style="margin-bottom: 20px;">Join to WhatsApp group</p>
+                    <a href="https://chat.whatsapp.com/Jq66BrxfoaYDyVoygCbLY8" target="_blank" class="whatsapp-link">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- End #presentation-viewer --><!-- New Navigation Controls --><div id="nav-controls">
+    <button id="prev-btn"><i class="fa-solid fa-arrow-left"></i> Prev</button>
+    <span id="slide-counter"></span>
+    <button id="next-btn">Next <i class="fa-solid fa-arrow-right"></i></button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Element Selections ---
+    const slides = document.querySelectorAll('.slide-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const slideCounter = document.getElementById('slide-counter');
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    // --- Core Slide Logic ---
+    function showSlide(index) {
+        // Remove 'active' from all slides
+        slides.forEach((slide) => {
+            slide.classList.remove('active');
+        });
+
+        // Add 'active' to the target slide
+        if (slides[index]) {
+            slides[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        // Update slide counter
+        // UPDATED: Now shows total of 38 slides
+        slideCounter.textContent = `Slide ${index + 1} of ${totalSlides}`;
+
+        // Update button states
+        prevBtn.disabled = (index === 0);
+        nextBtn.disabled = (index === totalSlides - 1);
+    }
+
+    // --- Event Listeners ---
+    prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            showSlide(currentSlide - 1);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentSlide < totalSlides - 1) {
+            showSlide(currentSlide + 1);
+        }
+    });
+
+    // --- Initial Load ---
+    showSlide(0);
+});
+</script>
+
+</body>
+</html>
+
